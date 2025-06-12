@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -69,7 +70,19 @@ func (h loadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Current:    path,
 	}
 	if p.Current == "" {
-		p.Current = h.server.context.config.LastPath
+		if _, err := os.Stat(h.server.context.config.LastPath); err == nil {
+			p.Current = h.server.context.config.LastPath
+		} else if errors.Is(err, os.ErrNotExist) {
+			var err2 error
+			p.Current, err2 = os.UserHomeDir()
+			if err2 != nil {
+				httpError(w, err2)
+				return
+			}
+		} else {
+			httpError(w, err)
+			return
+		}
 	}
 	var err error
 	p.Current, err = filepath.Abs(p.Current)
