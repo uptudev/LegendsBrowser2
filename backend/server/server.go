@@ -116,7 +116,7 @@ func StartServer(config *Config, world *model.DfWorld, static embed.FS) error {
 
 	srv.RegisterWorldPage("/writtencontents", "writtencontents.html", func(p Parms) any { return groupByType(srv.context.world.WrittenContents) })
 	srv.RegisterWorldResourcePage("/writtencontent/{id}", "writtencontent.html", func(id int) any { return srv.context.world.WrittenContents[id] })
-	srv.RegisterWorldResourcePage("/popover/writtencontent/{id}", "popoverWrittencontent.html", func(id int) any { return srv.context.world.WrittenContents[id] })
+	srv.RegisterWorldResourcePage("/popover/writtencontent/{id}", "popoverWrittenContent.html", func(id int) any { return srv.context.world.WrittenContents[id] })
 
 	srv.RegisterWorldPage("/hfs", "hfs.html", srv.searchHf)
 	srv.RegisterWorldResourcePage("/hf/{id}", "hf.html", func(id int) any { return srv.context.world.HistoricalFigures[id] })
