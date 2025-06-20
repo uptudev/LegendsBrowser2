@@ -162,5 +162,5 @@ func ArtFormShortDesc(name string, desc string) string {
 		return desc	// no period found; text is one sentence
 	}
 
-	return strings.TrimSpace(desc[i:j+1])
+	return strings.TrimSpace(desc[i:j])
 }
